@@ -9,11 +9,11 @@ import (
 
 // ヘッダー情報構造体 for json
 type List struct {
-	Key int             'json:"key"'			// 後でデータベースのキーに変更 *datastore.Key
-	Title string		'json:"title"'
-	Position string		'json:"position"'		// 緯度経度
-	Adr string			'json:"adr"'
-	Date string			'json:"date"'			// 後でデータベースの日付に変更 time.Time 
+	Key int				`json:"key"`			// 後でデータベースのキーに変更 *datastore.Key
+	Title string		`json:"title"`
+	Position string		`json:"position"`		// 緯度経度
+	Adr string			`json:"adr"`
+	Date string			`json:"date"`			// 後でデータベースの日付に変更 time.Time 
 }
 
 // ヘッダー一覧用構造体 for json
