@@ -19,7 +19,7 @@ type List struct {
 
 // ヘッダー一覧用構造体 for json
 type Listslice struct {
-	Lists []List
+	Lists []List		`json:"list"`
 }
 
 
@@ -36,9 +36,13 @@ func handler(w http.ResponseWriter, r *http.Request) {
 // とりあえず、固定で結果を返せるようにしておく。正式実装次第、差し替える
 func list(w http.ResponseWriter, r *http.Request) {
 
-	var l Listslice
-	l.Lists = append(l.Lists, List{Title: "世界一うまいラーメン", Lat: 35.0394195, Lng: 135.7915279, Adr: "大阪" } )
-	l.Lists = append(l.Lists, List{Title: "Test2", Adr: "兵庫" } )
+//	var l Listslice
+	var l []List
+
+//	l.Lists = append(l.Lists, List{Title: "世界一うまいラーメン", Lat: 35.0394195, Lng: 135.7915279, Adr: "大阪" } )
+//	l.Lists = append(l.Lists, List{Title: "Test2", Adr: "兵庫" } )
+	l = append(l, List{Title: "世界一うまいラーメン", Lat: 35.0394195, Lng: 135.7915279, Adr: "大阪" } )
+	l = append(l, List{Title: "Test2", Adr: "兵庫" } )
 	j, err := json.Marshal(l)
 	if err != nil {
 		fmt.Fprint(w, "json err:", err)
