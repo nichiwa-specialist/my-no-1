@@ -30,7 +30,7 @@ func init() {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-    fmt.Fprint(w, "Hello, world! 3")
+    fmt.Fprint(w, "Hello, world! 4")
 }
 
 // とりあえず、固定で結果を返せるようにしておく。正式実装次第、差し替える
