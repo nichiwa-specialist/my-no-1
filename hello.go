@@ -11,8 +11,8 @@ import (
 type List struct {
 	Key int				`json:"key"`			// 後でデータベースのキーに変更 *datastore.Key
 	Title string		`json:"title"`
-	Lat int				`json:"lat"`			// 緯度
-	Lng int				`json:"lng"`			// 経度
+	Lat float32				`json:"lat"`			// 緯度
+	Lng float32				`json:"lng"`			// 経度
 	Adr string			`json:"adr"`
 	Date string			`json:"date"`			// 後でデータベースの日付に変更 time.Time 
 }
@@ -37,7 +37,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 func list(w http.ResponseWriter, r *http.Request) {
 
 	var l Listslice
-	l.Lists = append(l.Lists, List{Title: "世界一うまいラーメン", Lat: "35.0394195", Lng: "135.7915279", Adr: "大阪" } )
+	l.Lists = append(l.Lists, List{Title: "世界一うまいラーメン", Lat: 35.0394195, Lng: 135.7915279, Adr: "大阪" } )
 	l.Lists = append(l.Lists, List{Title: "Test2", Adr: "兵庫" } )
 	j, err := json.Marshal(l)
 	if err != nil {
