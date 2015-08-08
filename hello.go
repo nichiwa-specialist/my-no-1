@@ -9,7 +9,7 @@ import (
 
 // ヘッダー情報構造体 for json
 type List struct {
-	Key int				'json:"key"'			// 後でデータベースのキーに変更 *datastore.Key
+	Key int             'json:"key"'			// 後でデータベースのキーに変更 *datastore.Key
 	Title string		'json:"title"'
 	Position string		'json:"position"'		// 緯度経度
 	Adr string			'json:"adr"'
