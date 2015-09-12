@@ -32,6 +32,13 @@ type Detail struct {
 func init() {
 	api := rest.NewApi()
 	api.Use(rest.DefaultDevStack...)
+	
+	api.Use(&rest.CorsMiddleware{
+        OriginValidator: func(origin string, request *rest.Request) bool {
+            return true
+        },
+    })
+	
 	router, err := rest.MakeRouter(
 		rest.Get("/message", func(w rest.ResponseWriter, req *rest.Request) {
 			w.WriteJson(map[string]string{"Body": "Hello World!"})
