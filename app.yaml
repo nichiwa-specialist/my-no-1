@@ -1,8 +1,8 @@
-application: gaehelloworld
+application: my-no-1
 version: 1
 runtime: go
 api_version: go1
 
 handlers:
-  - url: /.*
+  - url: /rest/.*
     script: _go_app
