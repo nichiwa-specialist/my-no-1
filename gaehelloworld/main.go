@@ -1,4 +1,4 @@
-package my_no_1
+package gaehelloworld
 
 import (
 	"github.com/ant0ine/go-json-rest/rest"
