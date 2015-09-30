@@ -4,5 +4,7 @@ runtime: go
 api_version: go1
 
 handlers:
+  - url: /(.*\.html)
+    static_files: html/$1
   - url: /.*
     script: _go_app
