@@ -7,7 +7,6 @@ dependencies:
     - unzip -q -d $HOME $HOME/go_appengine_1.9.27.zip
 test:
   override:
-    - GOPATH=$HOME/$CIRCLE_PROJECT_REPONAME
 deployment:
   appengine:
     branch: master

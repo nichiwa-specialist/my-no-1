@@ -41,7 +41,7 @@ func init() {
 	
 	router, err := rest.MakeRouter(
 		rest.Get("/message", func(w rest.ResponseWriter, req *rest.Request) {
-			w.WriteJson(map[string]string{"Body": "Hello World!"})
+			w.WriteJson(map[string]string{"Body": "Hello World!2"})
 		}),
 		rest.Get("/article", func(w rest.ResponseWriter, req *rest.Request) {
 		
