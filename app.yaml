@@ -4,5 +4,19 @@ runtime: go
 api_version: go1
 
 handlers:
+
+  - url: /(.*\.html)$
+    static_files: public_html/\1
+    upload: public_html/.*\.html$
+
+  - url: /img
+    static_dir: public_html/img
+
+  - url: /css
+    static_dir: public_html/css
+
+  - url: /js
+    static_dir: public_html/js
+
   - url: /.*
     script: _go_app
