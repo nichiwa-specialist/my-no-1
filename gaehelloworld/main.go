@@ -7,6 +7,8 @@ import (
 	"strconv"
 	"fmt"
 )
+//	"appengine"
+
 
 // ヘッダー情報構造体 for json
 type List struct {
@@ -28,6 +30,16 @@ type Detail struct {
 	Date string			`json:"date"`			// 後でデータベースの日付に変更 time.Time
 	Detail string		`json:"detail"`			// 本文
 }
+
+// Post情報構造体 for json
+type PostData struct {
+	Title string		`json:"title"`			// タイトル
+	Lat float32			`json:"lat"`			// 緯度
+	Lng float32			`json:"lng"`			// 経度
+	Detail string		`json:"detail"`			// 本文
+}
+
+
 
 func init() {
 	api := rest.NewApi()
@@ -73,6 +85,29 @@ func init() {
 
 			w.WriteJson(l)
 		}),
+
+//		rest.Get("/article_post", func(w rest.ResponseWriter, req *rest.Request) {
+//			
+//			post := PostData{}
+//			
+//			err := req.DecodeJsonPayload(&post)
+//			if err != nil {
+//				rest.Error(w, err.Error(), http.StatusInternalServerError)
+//				return
+//			}
+//			
+//			c := appengine.NewContext(req)
+//			err := db.Save(post.Title, post.Lat, post.Lng, post.Detail, c)
+//			
+//			
+//			if err != nil {
+//				http.Error(w, err.Error(), http.StatusInternalServerError)
+//				return
+//			}
+//
+//		}),
+
+
 		)
 	if err != nil {
 		log.Fatal(err)
