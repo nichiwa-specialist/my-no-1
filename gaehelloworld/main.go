@@ -78,7 +78,7 @@ func init() {
 			}
 			
 			l.Key = int(intKey)
-			l.Title = "世界一うまいラーメン"
+			l.Title = "世界一うまいラーメン2"
 			l.Lat = 35.0394195
 			l.Lng = 135.7915279
 			l.Detail = "詳細"
