@@ -1,14 +1,7 @@
 ﻿// 
 $(document).ready(function() {
-	
-// 	$.ajax({
-// //		url: "http://my-no-1.appspot.com/list",
-// 		cache: false,
-// 		success: function(html)　{
-// 			//$("#results").append(html);
-// 			console.log(html)
-// 		}
-// 	});
+
+	$("#list").perfectScrollbar();
 
 	var articles = new Vue({
 	  el: '#articles',
