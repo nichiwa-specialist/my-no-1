@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"strconv"
 	"fmt"
+	"appengine"
+	"appengine/datastore"
 )
 //	"appengine"
 
@@ -107,6 +109,27 @@ func init() {
 //
 //		}),
 
+
+		rest.Post("/article", func(w rest.ResponseWriter, req *rest.Request) {
+
+			postdata := PostData{}
+//			db_list := List{}
+			
+			if err := req.DecodeJsonPayload(&postdata); err != nil {
+				rest.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+
+			c := appengine.NewContext(req)
+//			err := db.Save(post.Title, post.Lat, post.Lng, post.Detail, c)
+			
+			
+//			if err != nil {
+//				http.Error(w, err.Error(), http.StatusInternalServerError)
+//				return
+//			}
+
+		}),
 
 		)
 	if err != nil {

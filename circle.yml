@@ -11,6 +11,7 @@ dependencies:
     - $HOME/go_appengine/goapp build
 test:
   override:
+    - go get -v github.com/ant0ine/go-json-rest/rest
     - $HOME/go_appengine/goapp test
 deployment:
   appengine:
