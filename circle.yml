@@ -8,10 +8,10 @@ dependencies:
     - $HOME/go_appengine/goapp get github.com/ant0ine/go-json-rest/rest
     - $HOME/go_appengine/goapp install github.com/ant0ine/go-json-rest/rest
   override:
-    - $HOME/go_appengine/goapp build
+    - $HOME/go_appengine/goapp build ./gaehelloworld
 test:
   override:
-    - $HOME/go_appengine/goapp test
+    - $HOME/go_appengine/goapp test ./gaehelloworld
 deployment:
   appengine:
     branch: master
