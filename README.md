@@ -23,11 +23,20 @@ GAE/goの開発環境は変更を検出して自動的に更新してくれる�
 
     goapp deploy
 
-と goapp deployコマンドを実行すれば、ブラウザが起動してgoogleの認証画面が開き、そこでデプロイ可能なユーザでログインすればGAEのmy-no-1プロジェクトにデプロイされ、 http://my-no-1.appspot.com/top.html でアクセスできます。  
-デプロイを行った結果、ホームディレクトリに .appcfg_oauth2_tokens が作成されます。このファイルの内容はのちのci設定で必要になります。
+と`goapp deploy`コマンドを実行すれば、ブラウザが起動してgoogleの認証画面が開き、そこでデプロイ可能なユーザでログインすればGAEのmy-no-1プロジェクトにデプロイされ、 http://my-no-1.appspot.com/top.html でアクセスできます。
+
+`-application` オブション及び `-version` オプションをつければデプロイ先のアプリケーション及びバージョンを指定できます。  
+例えば、自分のGAEアカウントで「oreblog」プロジェクトを作成し、プロジェクトIDが「oreblog-1234」（プロジェクト名が重複した場合、任意の数字が付加されるようです）と設定された場合、
+
+    goapp deploy -application oreblog-1234 -version staging
+
+と`goapp deploy`コマンドを実行すれば、自分自身の「oreblog-1234」プロジェクトの「staging」バージョンとしてデプロイされ、http://staging.oreblog-1234.appspot.com/top.html でアクセスできるようになります。
+
+
+デプロイを行った結果、ホームディレクトリに `.appcfg_oauth2_tokens` が作成されます。このファイルの内容はのちのci設定で必要になります。
 
 ## CI設定
 
 このプロジェクトには Circle CI の設定ファイルが含まれており、masterへのコミットがそのままGAEにデプロイされるようになっています。
 Circle CI上でこのプロジェクトをデプロイ対象とするには、Project settings の Enviroment Variables のページを開き、
-REFRESH_TOKENに上記 .appcfg_oauth2_tokens ファイルに記載された refresh_token の値を設定します。
+`REFRESH_TOKEN`に上記 `.appcfg_oauth2_tokens` ファイルに記載された `refresh_token` の値を設定します。
