@@ -17,6 +17,8 @@ GAE/goの開発環境は変更を検出して自動的に更新してくれる�
 
 ## デプロイ方法
 
+まず、デプロイするためには https://console.developers.google.com/apis/library でこのプロジェクトを選択し、「App Engine Admin API」を検索して、有効にしてください。
+
 クローンした開発ディレクトリ上で
 
     goapp deploy
@@ -29,5 +31,3 @@ GAE/goの開発環境は変更を検出して自動的に更新してくれる�
 このプロジェクトには Circle CI の設定ファイルが含まれており、masterへのコミットがそのままGAEにデプロイされるようになっています。
 Circle CI上でこのプロジェクトをデプロイ対象とするには、Project settings の Enviroment Variables のページを開き、
 REFRESH_TOKENに上記 .appcfg_oauth2_tokens ファイルに記載された refresh_token の値を設定します。
-
-
