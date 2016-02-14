@@ -1,8 +1,8 @@
-application: gaehelloworld
-version: 1
+application: my-no-1
+version: 2
 runtime: go
 api_version: go1
-
+ 
 handlers:
   - url: /(.*\.html)$
     static_files: html/\1
