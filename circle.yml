@@ -18,5 +18,4 @@ deployment:
     commands:
       - echo $CLIENT_SECRET | base64 --decode > ${HOME}/client-secret.json
       - gcloud auth activate-service-account --key-file ${HOME}/client-secret.json
-      - gcloud config set project my-no-1
-      - gcloud -q preview app deploy app.yaml --promote --version=staging
+      - gcloud -q preview app deploy app.yaml --project my-no-1 --promote --version=2
