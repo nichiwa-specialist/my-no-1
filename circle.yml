@@ -7,7 +7,6 @@ dependencies:
     - unzip -q -d $HOME $HOME/go_appengine_1.9.26.zip
     - $HOME/go_appengine/goapp get github.com/ant0ine/go-json-rest/rest
     - $HOME/go_appengine/goapp install github.com/ant0ine/go-json-rest/rest
-    - gcloud --quiet components update
   override:
     - $HOME/go_appengine/goapp build ./gaehelloworld
 test:
