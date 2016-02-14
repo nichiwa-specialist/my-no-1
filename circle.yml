@@ -14,6 +14,6 @@ test:
     - $HOME/go_appengine/goapp test ./gaehelloworld
 deployment:
   appengine:
-    branch: deploy_to_circle
+    branch: master
     commands:
       - $HOME/go_appengine/appcfg.py --oauth2_refresh_token=$REFRESH_TOKEN update .
