@@ -14,7 +14,7 @@ test:
     - $HOME/go_appengine/goapp test ./gaehelloworld
 deployment:
   appengine:
-    branch: Circleciでのデプロイ
+    branch: deploy_to_circle
     commands:
       - echo $CLIENT_SECRET | base64 --decode > ${HOME}/client-secret.json
       - gcloud --quiet components update
