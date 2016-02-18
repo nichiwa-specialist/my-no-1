@@ -2,19 +2,27 @@ application: my-no-1
 version: 2
 runtime: go
 api_version: go1
- 
+
 handlers:
   - url: /(.*\.html)$
     static_files: html/\1
     upload: html/.*\.html$
 
+  - url: /css/(.*\.css)$
+    static_files: html/css/\1
+    upload: html/css/.*\.css$
+
+  - url: /images/(.*)$
+    static_files: html/images/\1
+    upload: html/images/.*$
+
   - url: /js/(.*\.js)$
     static_files: html/js/\1
     upload: html/js/.*\.js$
 
-  - url: /lib/(.*\.js)$
+  - url: /lib/(.*)$
     static_files: html/lib/\1
-    upload: html/lib/.*\.js$
+    upload: html/lib/.*$
 
   - url: /.*
     script: _go_app
