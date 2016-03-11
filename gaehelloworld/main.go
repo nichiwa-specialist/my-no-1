@@ -1,35 +1,36 @@
 package gaehelloworld
 
 import (
-	"github.com/ant0ine/go-json-rest/rest"
-	"log"
 	"net/http"
-	"strconv"
+	"encoding/json"
 	"fmt"
+	"strings"
+	"strconv"
+	"time"
+//	"log"
 	"appengine"
 	"appengine/datastore"
 )
-//	"appengine"
 
 
 // ヘッダー情報構造体 for json
 type List struct {
-	Key int				`json:"key"`			// 後でデータベースのキーに変更 *datastore.Key
+	Key *datastore.Key	`json:"key"`			// 後でデータベースのキーに変更 *datastore.Key
 	Title string		`json:"title"`			// タイトル
 	Lat float32			`json:"lat"`			// 緯度
 	Lng float32			`json:"lng"`			// 経度
 	Adr string			`json:"adr"`			// 住所
-	Date string			`json:"date"`			// 後でデータベースの日付に変更 time.Time 
+	Date time.Time		`json:"date"`			// 後でデータベースの日付に変更 time.Time 
 }
 
 // 詳細情報構造体 for json
 type Detail struct {
-	Key int				`json:"key"`			// 後でデータベースのキーに変更 *datastore.Key
+//	Key int				`json:"key"`			// 後でデータベースのキーに変更 *datastore.Key
 	Title string		`json:"title"`			// タイトル
 	Lat float32			`json:"lat"`			// 緯度
 	Lng float32			`json:"lng"`			// 経度
 	Adr string			`json:"adr"`			// 住所
-	Date string			`json:"date"`			// 後でデータベースの日付に変更 time.Time
+	Date time.Time		`json:"date"`			// 後でデータベースの日付に変更 time.Time
 	Detail string		`json:"detail"`			// 本文
 }
 
@@ -41,100 +42,82 @@ type PostData struct {
 	Detail string		`json:"detail"`			// 本文
 }
 
-
+type Message struct {
+	Message string		`json:"Error"`
+}
 
 func init() {
-	api := rest.NewApi()
-	api.Use(rest.DefaultDevStack...)
-	
-	api.Use(&rest.CorsMiddleware{
-        OriginValidator: func(origin string, request *rest.Request) bool {
-            return true
-        },
-    })
-	
-	router, err := rest.MakeRouter(
-		rest.Get("/message", func(w rest.ResponseWriter, req *rest.Request) {
-			w.WriteJson(map[string]string{"Body": "Hello World!2"})
-		}),
-		rest.Get("/article", func(w rest.ResponseWriter, req *rest.Request) {
+    http.HandleFunc("/", root)
+    http.HandleFunc("/article/", article)
+}
+
+func getRemarkID(path string) (int, bool) {
+    split := strings.Split(path, "/")
+    length := len(split)
+	id, err := strconv.Atoi(split[length-1])
+    return id, (err == nil)
+}
+
+func article(w http.ResponseWriter, r *http.Request) {
+	c := appengine.NewContext(r)
+    
+    switch r.Method {
+    case "POST":		// POST の仮に GET でテスト
+   		
+   		d := Detail{
+   			Title: "世界一うまいラーメン",
+   			Lat: 35.0394195,
+   			Lng: 135.7915279,
+   			Adr: "大阪",
+   			Date: time.Now(),
+   			Detail: "詳細",
+   		}
+   		
+   		key := datastore.NewIncompleteKey(c, "Detail", nil)
+   		key, err := datastore.Put(c, key, &d)
+   		if err != nil {
+   		}
+
+	case "GET":
+		id, foundID := getRemarkID(r.URL.Path)
 		
-			var l []List
-
-			l = append(l, List{Title: "世界一うまいラーメン", Lat: 35.0394195, Lng: 135.7915279, Adr: "大阪" } )
-			l = append(l, List{Title: "Test2", Adr: "兵庫" } )
+//		var query *datastore.Query
 		
-			w.WriteJson(l)
-		}),
-		rest.Get("/article/:key", func(w rest.ResponseWriter, req *rest.Request) {
+		if  foundID {
+			m := List{Title: "世界一うまいラーメン" + string(int(id)), Lat: 35.0394195, Lng: 135.7915279, Adr: "大阪" }
+			out, _ := json.Marshal(m)
+			fmt.Fprint(w, string(out))
 
-			var l Detail
-//			var intKey int
-
-//			var strKey string
-//			strKey = req.PathParam("key")
-			intKey, err := strconv.ParseInt( req.PathParam("key"), 10 , 0 )
-
-			if err != nil{
-			  fmt.Println(err)
+//			m := Message{string(id)}
+//			out, _ := json.Marshal(m)
+//			fmt.Fprint(w, string(out))
+		}else{
+//			m := List{Title: "世界一うまいラーメン", Lat: 35.0394195, Lng: 135.7915279, Adr: "大阪" }
+//			out, _ := json.Marshal(m)
+//			fmt.Fprint(w, string(out))
+			
+//			query = datastore.NewQuery(REMARK_KIND).Order("-Time")
+			q := datastore.NewQuery("Detail").Order("-Date")
+			list := make([]List, 0, 200)
+			if _, err := q.GetAll(c, &list); err != nil {
+				
 			}
-			
-			l.Key = int(intKey)
-			l.Title = "世界一うまいラーメン2"
-			l.Lat = 35.0394195
-			l.Lng = 135.7915279
-			l.Detail = "詳細"
-
-			w.WriteJson(l)
-		}),
-
-//		rest.Get("/article_post", func(w rest.ResponseWriter, req *rest.Request) {
-//			
-//			post := PostData{}
-//			
-//			err := req.DecodeJsonPayload(&post)
-//			if err != nil {
-//				rest.Error(w, err.Error(), http.StatusInternalServerError)
-//				return
-//			}
-//			
-//			c := appengine.NewContext(req)
-//			err := db.Save(post.Title, post.Lat, post.Lng, post.Detail, c)
-//			
-//			
-//			if err != nil {
-//				http.Error(w, err.Error(), http.StatusInternalServerError)
-//				return
-//			}
-//
-//		}),
+			out, _ := json.Marshal(list)
+			fmt.Fprint(w, string(out))
+		}
 
 
-		rest.Post("/article", func(w rest.ResponseWriter, req *rest.Request) {
 
-			postdata := PostData{}
-//			db_list := List{}
-			
-			if err := req.DecodeJsonPayload(&postdata); err != nil {
-				rest.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
 
-			c := appengine.NewContext(req)
-//			err := db.Save(post.Title, post.Lat, post.Lng, post.Detail, c)
-			
-			
-//			if err != nil {
-//				http.Error(w, err.Error(), http.StatusInternalServerError)
-//				return
-//			}
+	default:
+		m := Message{"Resource not found"}
+		out, _ := json.Marshal(m)
+		fmt.Fprint(w, string(out))
+    }
+}
 
-		}),
-
-		)
-	if err != nil {
-		log.Fatal(err)
-	}
-	api.SetApp(router)
-	http.Handle("/", api.MakeHandler())
+func root(w http.ResponseWriter, r *http.Request) {
+	m := Message{"Resource not found"}
+	out, _ := json.Marshal(m)
+	fmt.Fprint(w, string(out))
 }
