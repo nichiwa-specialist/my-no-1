@@ -65,11 +65,9 @@ func article(w http.ResponseWriter, r *http.Request) {
 	c := appengine.NewContext(r)
 
 	switch r.Method {
-	case "POST":		// POST の仮に GET でテスト
+	case "POST":
 
 		var p_data PostData
-
-		fmt.Fprint(w, r.Body)
 
 		body, err := ioutil.ReadAll(r.Body)
 		if err != nil {
@@ -82,9 +80,6 @@ func article(w http.ResponseWriter, r *http.Request) {
 			fmt.Fprint(w, err)
 			return
 		}
-
-
-
 
 		d := Detail{
 			Title: p_data.Title,
@@ -101,6 +96,8 @@ func article(w http.ResponseWriter, r *http.Request) {
 			fmt.Fprint(w, err)
 			return
 		}
+
+		fmt.Fprint(w, "{}")
 
 	case "GET":
 		id, foundID := getRemarkID(r.URL.Path)
@@ -129,9 +126,6 @@ func article(w http.ResponseWriter, r *http.Request) {
 			out, _ := json.Marshal(list)
 			fmt.Fprint(w, string(out))
 		}
-
-
-
 
 	default:
 		m := Message{"Resource not found"}
