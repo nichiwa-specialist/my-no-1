@@ -10,6 +10,7 @@ import (
 //	"log"
 	"appengine"
 	"appengine/datastore"
+	"io/ioutil"
 )
 
 
@@ -63,19 +64,37 @@ func article(w http.ResponseWriter, r *http.Request) {
     
     switch r.Method {
     case "POST":		// POST の仮に GET でテスト
-   		
+
+		var p_data PostData
+
+		fmt.Fprint(w, r.Body)
+		
+		body, err := ioutil.ReadAll(r.Body)
+   		if err != nil {
+   			fmt.Fprint(w, err)
+   		}
+		
+		err = json.Unmarshal(body, &p_data)
+   		if err != nil {
+   			fmt.Fprint(w, err)
+   		}
+
+
+
+
    		d := Detail{
-   			Title: "世界一うまいラーメン",
-   			Lat: 35.0394195,
-   			Lng: 135.7915279,
+   			Title: p_data.Title,
+   			Lat: p_data.Lat,
+   			Lng: p_data.Lng,
    			Adr: "大阪",
    			Date: time.Now(),
-   			Detail: "詳細",
+   			Detail: p_data.Detail,
    		}
    		
    		key := datastore.NewIncompleteKey(c, "Detail", nil)
-   		key, err := datastore.Put(c, key, &d)
+   		key, err = datastore.Put(c, key, &d)
    		if err != nil {
+   			fmt.Fprint(w, err)
    		}
 
 	case "GET":
