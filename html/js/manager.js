@@ -9,10 +9,11 @@ $(document).ready(function() {
 		var url = "/article/";
 
 		var data = {
-			"title" : $("#title").val(),
-			"lat" : "35.039419",
-			"lng" : "135.7915279",
-			"detail" : $("#detail").val()
+			"title": $("#title").val(),
+			"lat": 35.039419,
+			"lng": 135.7915279,
+			"adr": "大阪市難波中",
+			"detail": $("#detail").val()
 		};
 
 		console.log(JSON.stringify(data));

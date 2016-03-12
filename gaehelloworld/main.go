@@ -41,6 +41,7 @@ type PostData struct {
 	Title string		`json:"title"`			// タイトル
 	Lat float32			`json:"lat"`			// 緯度
 	Lng float32			`json:"lng"`			// 経度
+	Adr string			`json:"adr"`			// 住所
 	Detail string		`json:"detail"`			// 本文
 }
 
@@ -49,54 +50,57 @@ type Message struct {
 }
 
 func init() {
-    http.HandleFunc("/", root)
-    http.HandleFunc("/article/", article)
+	http.HandleFunc("/", root)
+	http.HandleFunc("/article/", article)
 }
 
 func getRemarkID(path string) (int, bool) {
-    split := strings.Split(path, "/")
-    length := len(split)
+	split := strings.Split(path, "/")
+	length := len(split)
 	id, err := strconv.Atoi(split[length-1])
-    return id, (err == nil)
+	return id, (err == nil)
 }
 
 func article(w http.ResponseWriter, r *http.Request) {
 	c := appengine.NewContext(r)
 
-    switch r.Method {
-    case "POST":		// POST の仮に GET でテスト
+	switch r.Method {
+	case "POST":		// POST の仮に GET でテスト
 
 		var p_data PostData
 
 		fmt.Fprint(w, r.Body)
 
 		body, err := ioutil.ReadAll(r.Body)
-   		if err != nil {
-   			fmt.Fprint(w, err)
-   		}
+		if err != nil {
+			fmt.Fprint(w, err)
+			return
+		}
 
 		err = json.Unmarshal(body, &p_data)
-   		if err != nil {
-   			fmt.Fprint(w, err)
-   		}
+		if err != nil {
+			fmt.Fprint(w, err)
+			return
+		}
 
 
 
 
-   		d := Detail{
-   			Title: p_data.Title,
-   			Lat: p_data.Lat,
-   			Lng: p_data.Lng,
-   			Adr: "大阪",
-   			Date: time.Now(),
-   			Detail: p_data.Detail,
-   		}
+		d := Detail{
+			Title: p_data.Title,
+			Lat: p_data.Lat,
+			Lng: p_data.Lng,
+			Adr: p_data.Adr,
+			Date: time.Now(),
+			Detail: p_data.Detail,
+		}
 
-   		key := datastore.NewIncompleteKey(c, "Detail", nil)
-   		key, err = datastore.Put(c, key, &d)
-   		if err != nil {
-   			fmt.Fprint(w, err)
-   		}
+		key := datastore.NewIncompleteKey(c, "Detail", nil)
+		key, err = datastore.Put(c, key, &d)
+		if err != nil {
+			fmt.Fprint(w, err)
+			return
+		}
 
 	case "GET":
 		id, foundID := getRemarkID(r.URL.Path)
@@ -133,7 +137,7 @@ func article(w http.ResponseWriter, r *http.Request) {
 		m := Message{"Resource not found"}
 		out, _ := json.Marshal(m)
 		fmt.Fprint(w, string(out))
-    }
+	}
 }
 
 func root(w http.ResponseWriter, r *http.Request) {
