@@ -62,7 +62,7 @@ func article(w http.ResponseWriter, r *http.Request) {
 	c := appengine.NewContext(r)
     
     switch r.Method {
-    case "POST":		// POST の仮に GET でテスト
+    case "GET":		// POST の仮に GET でテスト
    		
    		d := Detail{
    			Title: "世界一うまいラーメン",
@@ -78,7 +78,7 @@ func article(w http.ResponseWriter, r *http.Request) {
    		if err != nil {
    		}
 
-	case "GET":
+	case "GET2":
 		id, foundID := getRemarkID(r.URL.Path)
 		
 //		var query *datastore.Query
