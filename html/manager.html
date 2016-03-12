@@ -17,31 +17,33 @@
 	<script src="js/manager.js"></script>
 </head>
 
-<body class="lime lighten-4">
-	<form>
-		<div class="inputArea z-depth-2">
-			<div class="input-field">
-				<input placeholder="" id="title" type="text" class="">
-				<label for="title">タイトル</label>
-			</div>
-			<div class="input-field detail">
-				<textarea id="detail" class="materialize-textarea"></textarea>
-				<label for="detail">本文</label>
-			</div>
-			<div class="input-field">
-				<select>
-					<option value="" disabled selected>選択してください</option>
-					<option value="1">食事</option>
-					<option value="2">釣り</option>
-					<option value="3">ドライブ</option>
-				</select>
-				<label>カテゴリ</label>
-			</div>
+<body class="lime lighten-4 valign-wrapper">
+	<div class="row valign">
+		<form class="card z-depth-2 white col s12 m8 offset-m2 l6 offset-l3">
+			<div class="row">
+				<div class="input-field col s12">
+					<input placeholder="" id="title" type="text" class="">
+					<label for="title">タイトル</label>
+				</div>
+				<div class="input-field col s12">
+					<textarea id="detail" class="materialize-textarea"></textarea>
+					<label for="detail">本文</label>
+				</div>
+				<div class="input-field col s12">
+					<select>
+						<option value="" disabled selected>選択してください</option>
+						<option value="1">食事</option>
+						<option value="2">釣り</option>
+						<option value="3">ドライブ</option>
+					</select>
+					<label>カテゴリ</label>
+				</div>
 
-			<div class="btnArea">
-				<a id="post" class="waves-effect waves-light btn">投稿</a>
+				<div>
+					<a id="post" class="waves-effect waves-light btn">投稿</a>
+				</div>
 			</div>
-		</div>
-	</form>
+		</form>
+	</div>
 </body>
 </html>
