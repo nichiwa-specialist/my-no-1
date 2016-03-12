@@ -40,3 +40,7 @@ GAE/goの開発環境は変更を検出して自動的に更新してくれる�
 このプロジェクトには Circle CI の設定ファイルが含まれており、masterへのコミットがそのままGAEにデプロイされるようになっています。
 Circle CI上でこのプロジェクトをデプロイ対象とするには、Project settings の Enviroment Variables のページを開き、
 `REFRESH_TOKEN`に上記 `.appcfg_oauth2_tokens` ファイルに記載された `refresh_token` の値を設定します。
+
+## ドキュメント
+
+https://docs.google.com/spreadsheets/d/1a2uENYOQ8Tfy8h27I8HW_ymYmWju6mFCYQCKvUZsIQ4/edit#gid=1103569838
