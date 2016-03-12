@@ -1,7 +1,8 @@
-﻿// 
+﻿//
 $(document).ready(function() {
 
-	$("#list").perfectScrollbar();
+	$("#articles").perfectScrollbar();
+	$('.parallax').parallax();
 
 	var articles = new Vue({
 	  el: '#articles',
@@ -10,14 +11,7 @@ $(document).ready(function() {
 	  }
 	})
 
-
-
-
 	$.get('http://my-no-1.appspot.com/article', function(res) {
 		articles.articles = res;
 	})
-
-
-
-
 });
