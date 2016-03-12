@@ -9,7 +9,7 @@ dependencies:
     - $HOME/go_appengine/goapp build ./gaehelloworld
 test:
   override:
-    - $HOME/go_appengine/goapp test
+    - $HOME/go_appengine/goapp test ./gaehelloworld
 deployment:
   appengine:
     branch: master
