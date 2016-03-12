@@ -11,7 +11,7 @@ $(document).ready(function() {
 	  }
 	})
 
-	$.get('http://my-no-1.appspot.com/article', function(res) {
+	$.getJSON('/article/', function(res) {
 		articles.articles = res;
 	})
 });

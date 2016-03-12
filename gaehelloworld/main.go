@@ -18,10 +18,11 @@ import (
 type List struct {
 	Key *datastore.Key	`json:"key"`			// 後でデータベースのキーに変更 *datastore.Key
 	Title string		`json:"title"`			// タイトル
+	Detail string		`json:"detail"`			// 内容
 	Lat float32			`json:"lat"`			// 緯度
 	Lng float32			`json:"lng"`			// 経度
 	Adr string			`json:"adr"`			// 住所
-	Date time.Time		`json:"date"`			// 後でデータベースの日付に変更 time.Time 
+	Date time.Time		`json:"date"`			// 後でデータベースの日付に変更 time.Time
 }
 
 // 詳細情報構造体 for json
@@ -61,19 +62,19 @@ func getRemarkID(path string) (int, bool) {
 
 func article(w http.ResponseWriter, r *http.Request) {
 	c := appengine.NewContext(r)
-    
+
     switch r.Method {
     case "POST":		// POST の仮に GET でテスト
 
 		var p_data PostData
 
 		fmt.Fprint(w, r.Body)
-		
+
 		body, err := ioutil.ReadAll(r.Body)
    		if err != nil {
    			fmt.Fprint(w, err)
    		}
-		
+
 		err = json.Unmarshal(body, &p_data)
    		if err != nil {
    			fmt.Fprint(w, err)
@@ -90,7 +91,7 @@ func article(w http.ResponseWriter, r *http.Request) {
    			Date: time.Now(),
    			Detail: p_data.Detail,
    		}
-   		
+
    		key := datastore.NewIncompleteKey(c, "Detail", nil)
    		key, err = datastore.Put(c, key, &d)
    		if err != nil {
@@ -99,11 +100,11 @@ func article(w http.ResponseWriter, r *http.Request) {
 
 	case "GET":
 		id, foundID := getRemarkID(r.URL.Path)
-		
+
 //		var query *datastore.Query
-		
+
 		if  foundID {
-			m := List{Title: "世界一うまいラーメン" + string(int(id)), Lat: 35.0394195, Lng: 135.7915279, Adr: "大阪" }
+			m := List{Title: "世界一うまいラーメン" + string(int(id)), Detail: "これは美味い！！", Lat: 35.0394195, Lng: 135.7915279, Adr: "大阪" }
 			out, _ := json.Marshal(m)
 			fmt.Fprint(w, string(out))
 
@@ -114,12 +115,12 @@ func article(w http.ResponseWriter, r *http.Request) {
 //			m := List{Title: "世界一うまいラーメン", Lat: 35.0394195, Lng: 135.7915279, Adr: "大阪" }
 //			out, _ := json.Marshal(m)
 //			fmt.Fprint(w, string(out))
-			
+
 //			query = datastore.NewQuery(REMARK_KIND).Order("-Time")
 			q := datastore.NewQuery("Detail").Order("-Date")
 			list := make([]List, 0, 200)
 			if _, err := q.GetAll(c, &list); err != nil {
-				
+
 			}
 			out, _ := json.Marshal(list)
 			fmt.Fprint(w, string(out))
