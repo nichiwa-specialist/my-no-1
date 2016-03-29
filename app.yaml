@@ -4,6 +4,11 @@ runtime: go
 api_version: go1
 
 handlers:
+  - url: /manager.html
+    static_files: html/manager.html
+    upload: html/manager.html
+    login: required
+
   - url: /(.*\.html)$
     static_files: html/\1
     upload: html/.*\.html$
